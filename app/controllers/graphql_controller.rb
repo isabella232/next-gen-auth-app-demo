@@ -4,8 +4,6 @@ class GraphqlController < AuthenticatedController
   # but you'll have to authenticate your user separately
   # protect_from_forgery with: :null_session
 
-  UPDATE_SCOPES_HEADER = 'X-Shopify-Insufficient-Scopes'
-
   def execute
     variables = ensure_hash(params[:variables])
     query = params[:query]
@@ -22,7 +20,7 @@ class GraphqlController < AuthenticatedController
     end
     render json: result
   rescue ActiveResource::ForbiddenAccess => e
-    response.set_header(UPDATE_SCOPES_HEADER, true)
+    signal_insufficient_scopes
   rescue ActiveResource::UnauthorizedAccess
     signal_access_token_required
   rescue => e

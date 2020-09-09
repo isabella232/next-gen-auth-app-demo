@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     apiKey: data.apiKey,
     shopOrigin: data.shopOrigin
   });
+  console.log(window.app)
   window.shop = data.shopOrigin
 
   var actions = AppBridge.actions;
